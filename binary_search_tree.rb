@@ -24,15 +24,35 @@ class BinarySearchTree
     BinarySearchTree.insert!(@root, value)
   end
 
-  def self.insert!(node = nil, value)
+  def self.insert!(node, value)
     return BSTNode.new(value) unless node
 
-    if value < node.value
+    if value <= node.value
       node.left = BinarySearchTree.insert!(node.left, value)
     else
-      node.right = BinarySearchTree.insert(node.right, value)
+      node.right = BinarySearchTree.insert!(node.right, value)
     end
 
     node
+  end
+
+  def self.min(node)
+    return nil unless node
+
+    if node.left.nil?
+      return node
+    else
+      return BinarySearchTree.min(node.left)
+    end
+  end
+
+  def self.max(node)
+    return nil unless node
+
+    if node.right.nil?
+      return node
+    else
+      return BinarySearchTree.max(node.right)
+    end
   end
 end
