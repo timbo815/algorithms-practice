@@ -55,4 +55,78 @@ class BinarySearchTree
       return BinarySearchTree.max(node.right)
     end
   end
+
+  def self.find!(node, value)
+    return nil unless node
+    return node if node.value == value
+
+    if value < node.value
+      BinarySearchTree.find!(node.left, value)
+    else
+      BinarySearchTree.find!(node.right, value)
+    end
+  end
+
+  def self.height!(node)
+    return -1 if node.nil?
+
+    left_height = 1 + BinarySearchTree.height!(node.left)
+    right_height = 1 + BinarySearchTree.height!(node.right)
+
+    return [left_height, right_height].max
+  end
+
+  def self.delete_min!(node)
+    return nil if node.nil?
+    return node.right unless node.left
+
+    node.left = BinarySearchTree.delete_min!(node.left)
+    node
+  end
+
+  def self.delete!(node, value)
+    return nil unless node
+
+    if value < node.value
+      node.left = BinarySearchTree.delete!(node.left, value)
+    elsif value > node.value
+      node.right = BinarySearchTree.delete!(node.right, value)
+    else
+      return node.left unless node.right
+      return node.right unless node.left
+
+      target_node = node
+      node = BinarySearchTree.min(target_node.right)
+      node.right = BinarySearchTree.delete_min!(target_node.right)
+      node.left = target_node.left
+    end
+
+    node
+  end
+
+  def self.inorder!(node)
+    return [] unless node
+
+    ordered_array = []
+    ordered_array += BinarySearchTree.inorder!(node.left) if node.left
+    ordered_array << node.value
+    ordered_array += BinarySearchTree.inorder!(node.right) if node.right
+
+    ordered_array
+  end
+
+  def self.preorder!(node)
+    return [] if node.nil?
+    preordered_array = [node.value]
+    preordered_array += BinarySearchTree.preorder!(node.left) if node.left
+    preordered_array += BinarySearchTree.preorder!(node.right) if node.right
+  end
+
+  def self.postorder!(node)
+    return [] if node.nil?
+    postordered_array = []
+    postordered_array += BinarySearchTree.postorder!(node.left) if node.left
+    postordered_array += BinarySearchTree.postorder!(node.right) if node.right
+    postordered_array << node.value
+  end
 end
