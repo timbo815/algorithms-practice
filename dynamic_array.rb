@@ -1,5 +1,4 @@
 require_relative "static_array"
-require 'byebug'
 
 class DynamicArray
 
@@ -10,16 +9,12 @@ class DynamicArray
   end
 
   def [](index)
-    if length <= index || index < 0
-      raise "index out of bounds"
-    end
+    check_index(index)
     store[index]
   end
 
   def []=(index, value)
-    if length <= index || index < 0
-      raise "index out of bounds"
-    end
+    check_index(index)
     self.store[index] = value
   end
 
@@ -68,6 +63,12 @@ class DynamicArray
   protected
   attr_accessor :capacity, :store
   attr_writer :length
+
+  def check_index(index)
+    if length <= index || index < 0
+      raise "index out of bounds"
+    end
+  end
 
   def resize!
     new_capacity = capacity * 2
