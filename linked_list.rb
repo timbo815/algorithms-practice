@@ -41,26 +41,20 @@ class LinkedList
   end
 
   def get(key)
-    current_link = first
-    while current_link != @tail
-      if current_link.key == key
-        return current_link.val
+    each do |link|
+      if link.key == key
+        return link.val
       end
-
-      current_link = current_link.next
     end
 
     nil
   end
 
   def include?(key)
-    current_link = first
-    while current_link != @tail
-      if current_link.key == key
+    each do |link|
+      if link.key == key
         return true
       end
-
-      current_link = current_link.next
     end
 
     return false
@@ -75,37 +69,34 @@ class LinkedList
   end
 
   def update(key, val)
-    current_link = first
-    while current_link != @tail
-      if current_link.key == key
-        current_link.val = val
-        return true
+    each do |link|
+      if link.key == key
+        link.val = val
       end
-
-      current_link = current_link.next
     end
-
-    return false
   end
 
   def remove(key)
-    current_link = first
-    while current_link != @tail
-      if current_link.key == key
-        new_prev = current_link.prev
-        new_next = current_link.next
+    each do |link|
+      if link.key == key
+        new_prev = link.prev
+        new_next = link.next
 
         new_prev.next = new_next
         new_next.prev = new_prev
 
-        current_link.prev = nil
-        current_link.next = nil
-        return true
+        link.prev = nil
+        link.next = nil
+        return
       end
+    end
+  end
 
+  def each
+    current_link = first
+    while current_link != @tail
+      yield current_link
       current_link = current_link.next
     end
-
-    return false
   end
 end
