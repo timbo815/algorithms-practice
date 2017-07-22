@@ -9,6 +9,14 @@ class Link
   def to_s
     "#{key}: #{val}"
   end
+
+  def remove
+    self.prev.next = self.next if self.prev
+    self.next.prev = self.prev if self.next
+    self.next = nil
+    self.prev = nil
+    self
+  end
 end
 
 class LinkedList
@@ -66,6 +74,7 @@ class LinkedList
     new_link.prev = self.last
     new_link.next = @tail
     @tail.prev = new_link
+    new_link
   end
 
   def update(key, val)
