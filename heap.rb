@@ -51,7 +51,6 @@ class BinaryMinHeap
   end
 
   def self.heapify_down(array, parent_idx, len = array.length)
-    debugger if $debugger
     indices_to_check = child_indices(len, parent_idx).sort
     child_values = []
     if indices_to_check[0]
