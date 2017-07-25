@@ -51,25 +51,23 @@ class BinaryMinHeap
   end
 
   def self.heapify_down(array, parent_idx, len = array.length)
-    indices_to_check = child_indices(len, parent_idx).sort
+    left_child_index, right_child_index = child_indices(len, parent_idx)
+    parent_value = array[parent_idx]
     child_values = []
-    if indices_to_check[0]
-      child_values << array[indices_to_check[0]]
-    end
+    child_values << array[left_child_index] if left_child_index
+    child_values << array[right_child_index] if right_child_index
 
-    if indices_to_check[1]
-      child_values << array[indices_to_check[1]]
-    end
-
-    if child_values[0] && (array[parent_idx] > child_values[0])
-      array[parent_idx], array[indices_to_check[0]] = array[indices_to_check[0]], array[parent_idx]
-      heapify_down(array, child_values[0], len)
-    elsif child_values[1] && array[parent_idx] > child_values[1]
-      array[parent_idx], array[indices_to_check[1]] = array[indices_to_check[1]], array[parent_idx]
-      heapify_down(array, child_values[1], len)
+    return array if child_values.all? { |val| val > array[parent_idx] }
+    swap_index = nil
+    if child_values.length == 1
+      swap_idx = left_child_idx
     else
-      return array
+      swap_idx = (child_values[0] < child_values[1]) ? left_child_index : right_child_index
     end
+
+
+    array[parent_idx], array[swap_idx] = array[swap_idx], parent_value
+    heapify_down(array, swap_idx, len)
   end
 
   def self.heapify_up(array, child_idx, len = array.length)
