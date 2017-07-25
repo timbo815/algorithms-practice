@@ -60,7 +60,7 @@ class BinaryMinHeap
     return array if child_values.all? { |val| val > array[parent_idx] }
     swap_index = nil
     if child_values.length == 1
-      swap_idx = left_child_idx
+      swap_idx = left_child_index
     else
       swap_idx = (child_values[0] < child_values[1]) ? left_child_index : right_child_index
     end
