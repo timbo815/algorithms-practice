@@ -1,3 +1,4 @@
+# testing github api
 class BinaryMinHeap
   def initialize(&prc)
     @store = []
